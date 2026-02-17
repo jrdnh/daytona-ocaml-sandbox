@@ -24,14 +24,14 @@ docker build \
   -t orcaset-oc-snapshot:$(cat VERSION) \
   .
 ```
-
-You can also tag it as `latest` at the same time:
+Build for Daytona which requires AMD64 architecture.
 
 ```sh
 docker build \
+  --platform=linux/amd64 \
   --build-arg VERSION=$(cat VERSION) \
   -t orcaset-oc-snapshot:$(cat VERSION) \
-  -t orcaset-oc-snapshot:latest \
+  --load \
   .
 ```
 
@@ -47,6 +47,24 @@ Run the pre-built scaffold project directly:
 
 ```sh
 docker run --rm orcaset-oc-snapshot:$(cat VERSION) bash -lc 'eval $(opam env) && dune exec myproject'
+```
+
+## Push to Daytona
+
+```sh
+daytona snapshot push orcaset-oc-snapshot:$(cat VERSION) \
+  --name orcaset-oc-snapshot:$(cat VERSION) \
+  --disk 1 \
+  --cpu 1 \
+  --memory 1
+```
+
+Create a sandbox from the snapshot:
+
+```sh
+daytona sandbox create \
+  --snapshot orcaset-oc-snapshot:$(cat VERSION) \
+  --auto-delete 0
 ```
 
 ## Inspecting the version label

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "anthropic/claude-sonnet-4-5",
+  "autoupdate": false,
+  "share": "disabled",
+  "formatter": {
+    "prettier": {
+      "disabled": true
+    },
+    "custom-prettier": {
+      "command": ["dune", "ocamlformat"],
+      "extensions": [".ml", ".mli"]
+    }
+  },
+
+//   Disable providers that are auto loaded
+//   "disabled_providers": ["openai", "gemini"]
+//   Enable providers (note that disable takes precedence over enable)
+  "enabled_providers": ["openrouter", "opencode"],
+//   "provider": {},
+//   "model": "anthropic/claude-sonnet-4-5",
+//   "small_model": "anthropic/claude-haiku-4-5"
+}

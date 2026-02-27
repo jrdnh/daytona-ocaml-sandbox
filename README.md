@@ -8,7 +8,17 @@ A Docker image intended for use as a [Daytona.io](https://daytona.io) snapshot. 
 - **Dune** build system
 - **ocaml-lsp-server** and **ocamlformat**
 - **orcaset** (pinned from source)
-- A minimal scaffold project under `/home/opam/project`
+
+## Internal folder structure
+
+Inside the container, the filesystem is organized so that user work happens in one place:
+
+- `/projects` - user-owned workspace (`WORKDIR`) where your projects and files should live
+- `/home/opam/.opam/default` - global opam switch and installed package binaries
+- `/home/opam/.cache` - tool caches (for dune/opam and related build tooling)
+- `/tmp/opencode.jsonc` - opencode configuration copied at build time
+
+`PATH` is configured so tools installed in `/home/opam/.opam/default/bin` are available from `/projects` and all subfolders.
 
 ## Version
 
@@ -43,10 +53,10 @@ Start an interactive shell inside the container:
 docker run --rm -it opencode-orcaset-oc-snapshot:$(cat VERSION)
 ```
 
-Run the pre-built scaffold project directly:
+Verify OCaml tooling is available in the `/projects` workspace:
 
 ```sh
-docker run --rm opencode-orcaset-oc-snapshot:$(cat VERSION) bash -lc 'eval $(opam env) && dune exec myproject'
+docker run --rm opencode-orcaset-oc-snapshot:$(cat VERSION) bash -lc 'cd /projects && which ocamlformat && dune --version'
 ```
 
 ## Push to Daytona

@@ -14,19 +14,16 @@ RUN chown -R opam:opam /home/opam/.cache 2>/dev/null; \
 # Configure opencode
 COPY --chown=root:root ./files/opencode.jsonc /tmp/opencode.jsonc
 RUN chmod 644 /tmp/opencode.jsonc
+RUN mkdir -p /projects && chown opam:opam /projects && chmod 700 /projects
 
 USER opam
 
 RUN opam install -y ocaml-lsp-server ocamlformat dune && \
     opam pin add -y orcaset https://github.com/Orcaset/orcaset-oc.git
 
-WORKDIR /home/opam/project
+ENV PATH="/home/opam/.opam/default/bin:${PATH}"
 
-RUN echo '(lang dune 3.0)' > dune-project && \
-    mkdir -p bin && \
-    echo '(executable (name main))' > bin/dune && \
-    echo 'let () = print_endline "Hello, OCaml!"' > bin/main.ml
+WORKDIR /projects
 
 RUN echo 'eval $(opam env)' >> ~/.bashrc && \
-    echo 'eval $(opam env)' >> ~/.profile && \
-    eval $(opam env) && dune build
+    echo 'eval $(opam env)' >> ~/.profile

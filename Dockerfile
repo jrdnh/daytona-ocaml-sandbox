@@ -1,3 +1,13 @@
+FROM golang:1.24-alpine AS file_watcher_builder
+
+WORKDIR /src/file-watcher
+
+COPY file-watcher/go.mod file-watcher/go.sum ./
+RUN go mod download
+
+COPY file-watcher/ ./
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/file-watcher .
+
 FROM ocaml/opam:debian-ocaml-5.4
 
 USER root
@@ -14,7 +24,9 @@ RUN chown -R opam:opam /home/opam/.cache 2>/dev/null; \
 # Configure opencode
 COPY --chown=root:root ./files/opencode.jsonc /tmp/opencode.jsonc
 RUN chmod 644 /tmp/opencode.jsonc
-RUN mkdir -p /projects && chown opam:opam /projects && chmod 700 /projects
+RUN mkdir -p /orcaset && chown opam:opam /orcaset && chmod 700 /orcaset
+COPY --from=file_watcher_builder /out/file-watcher /usr/local/bin/file-watcher
+RUN chmod 755 /usr/local/bin/file-watcher
 
 USER opam
 
@@ -23,7 +35,7 @@ RUN opam install -y ocaml-lsp-server ocamlformat dune && \
 
 ENV PATH="/home/opam/.opam/default/bin:${PATH}"
 
-WORKDIR /projects
+WORKDIR /orcaset
 
 RUN echo 'eval $(opam env)' >> ~/.bashrc && \
     echo 'eval $(opam env)' >> ~/.profile

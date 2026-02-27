@@ -1,0 +1,3 @@
+[submodule "file-watcher"]
+	path = file-watcher
+	url = https://github.com/Orcaset/file-watcher.git

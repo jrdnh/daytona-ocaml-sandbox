@@ -16,8 +16,14 @@
 //   Disable providers that are auto loaded
 //   "disabled_providers": ["openai", "gemini"]
 //   Enable providers (note that disable takes precedence over enable)
-  "enabled_providers": ["openrouter", "opencode"],
-//   "provider": {},
+  "enabled_providers": ["openrouter"],
+  "provider": {
+    "openrouter": {
+      "options": {
+        "apiKey": "{env:OPENROUTER_API_KEY}"
+      }
+    }
+  },
 //   "model": "anthropic/claude-sonnet-4-5",
 //   "small_model": "anthropic/claude-haiku-4-5"
 }

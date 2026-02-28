@@ -22,8 +22,10 @@ RUN chown -R opam:opam /home/opam/.cache 2>/dev/null; \
     chown -R opam:opam /home/opam/.cache
 
 # Configure opencode
-COPY --chown=root:root ./files/opencode.jsonc /tmp/opencode.jsonc
-RUN chmod 644 /tmp/opencode.jsonc
+RUN mkdir -p /home/opam/.config/opencode
+COPY --chown=opam:opam ./files/opencode.jsonc /home/opam/.config/opencode/opencode.json
+COPY --chown=opam:opam ./files/orcaset-instructions.md /home/opam/.config/opencode/orcaset-instructions.md
+RUN chmod 644 /home/opam/.config/opencode/opencode.json /home/opam/.config/opencode/orcaset-instructions.md
 RUN mkdir -p /orcaset && chown opam:opam /orcaset && chmod 700 /orcaset
 COPY --from=file_watcher_builder /out/file-watcher /usr/local/bin/file-watcher
 RUN chmod 755 /usr/local/bin/file-watcher

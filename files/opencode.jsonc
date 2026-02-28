@@ -17,13 +17,6 @@
   "disabled_providers": ["opencode"],
 //   Enable providers (note that disable takes precedence over enable)
   "enabled_providers": ["openrouter"],
-  "provider": {
-    "openrouter": {
-      "options": {
-        "apiKey": "{env:OPENROUTER_API_KEY}"
-      }
-    }
-  },
-  "model": "openrouter/anthropic/claude-sonnet-4-6",
-  "small_model": "openrouter/anthropic/claude-haiku-4-5"
+  "model": "openrouter/anthropic/claude-sonnet-4.6",
+  "small_model": "openrouter/anthropic/claude-haiku-4.5"
 }

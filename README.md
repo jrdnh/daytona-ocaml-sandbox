@@ -2,6 +2,8 @@
 
 A Docker image intended for use as a [Daytona.io](https://daytona.io) snapshot. It has `opencode` and an OCaml 5.4 development environment with [orcaset](https://github.com/Orcaset/orcaset-oc) and common tooling pre-installed.
 
+**REQUIRES:** Running this image requires an environment variable `OPENCODE_OPENROUTER_APIKEY` for opencode to work properly with the `files/opencode.jsonc` configuration. This variable is expected to be set in the Daytona sandbox environment when running the snapshot.
+
 ## What's included
 
 - **OCaml 5.4** (via the `ocaml/opam` base image)

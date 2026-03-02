@@ -9,6 +9,7 @@ A Docker image intended for use as a [Daytona.io](https://daytona.io) snapshot. 
 - **OCaml 5.4** (via the `ocaml/opam` base image)
 - **Dune** build system
 - **ocaml-lsp-server** and **ocamlformat**
+- **piaf** HTTP client library
 - **orcaset** (pinned from source)
 
 ## Internal folder structure
@@ -53,12 +54,6 @@ Start an interactive shell inside the container:
 
 ```sh
 docker run --rm -it opencode-orcaset-oc-snapshot:$(cat VERSION)
-```
-
-Verify OCaml tooling is available in the `/projects` workspace:
-
-```sh
-docker run --rm opencode-orcaset-oc-snapshot:$(cat VERSION) bash -lc 'cd /projects && which ocamlformat && dune --version'
 ```
 
 ## Push to Daytona

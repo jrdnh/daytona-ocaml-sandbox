@@ -11,7 +11,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/file-watcher .
 FROM ocaml/opam:debian-ocaml-5.4
 
 USER root
-RUN apt-get update && apt-get install -y curl git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl git pkg-config libssl-dev && rm -rf /var/lib/apt/lists/*
 RUN OPENCODE_VERSION=$(curl -sL https://api.github.com/repos/anomalyco/opencode/releases/latest | sed -n 's/.*"tag_name": *"v\([^"]*\)".*/\1/p') && \
     curl -fSL "https://github.com/anomalyco/opencode/releases/download/v${OPENCODE_VERSION}/opencode-linux-x64.tar.gz" -o /tmp/opencode.tar.gz && \
     tar -xzf /tmp/opencode.tar.gz -C /usr/local/bin && \
@@ -32,7 +32,7 @@ RUN chmod 755 /usr/local/bin/file-watcher
 
 USER opam
 
-RUN opam install -y ocaml-lsp-server ocamlformat dune && \
+RUN opam install -y ocaml-lsp-server ocamlformat dune piaf && \
     opam pin add -y orcaset https://github.com/Orcaset/orcaset-oc.git
 
 ENV PATH="/home/opam/.opam/default/bin:${PATH}"
